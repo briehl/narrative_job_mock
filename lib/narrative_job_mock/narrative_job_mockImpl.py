@@ -40,7 +40,7 @@ class narrative_job_mock:
 
         # Any configuration parameters that are important should be parsed and
         # saved in the constructor.
-        self.callback_url = os.environ['SDK_CALLBACK_URL']
+        # self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.shared_folder = config['scratch']
         self.cfg = config
 
@@ -82,7 +82,7 @@ class narrative_job_mock:
         # ctx is the context object
         # return variables are: job_state
         #BEGIN check_job
-        mocker = StateMocker(self.callback_url, self.cfg, ctx['token'])
+        mocker = StateMocker(self.cfg, ctx['token'])
         job_state = mocker.check_job(job_id)
         #END check_job
 
@@ -179,7 +179,7 @@ class narrative_job_mock:
         # ctx is the context object
         # return variables are: returnVal
         #BEGIN check_jobs
-        mocker = StateMocker(self.callback_url, self.cfg, ctx['token'])
+        mocker = StateMocker(self.cfg, ctx['token'])
         get_params = True if params.get('with_job_params', 0) == 1 else False
         returnVal = mocker.check_jobs(params['job_ids'], get_params)
         #END check_jobs

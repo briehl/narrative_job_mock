@@ -46,7 +46,6 @@ class narrative_job_mockTest(unittest.TestCase):
                         'authenticated': 1})
         cls.serviceImpl = narrative_job_mock(cls.cfg)
         cls.scratch = cls.cfg['scratch']
-        cls.callback_url = os.environ['SDK_CALLBACK_URL']
         cls.job_ids = ["5ad7ec09e4b0a7033d0286cf", "5afde6e1e4b0ac08e8b58f50"]
 
     def getImpl(self):

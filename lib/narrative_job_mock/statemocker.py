@@ -5,8 +5,7 @@ BATCH_APP_METHOD = "kb_BatchApp.run_batch"
 
 
 class StateMocker(object):
-    def __init__(self, callback_url, cfg, token):
-        self.callback_url = callback_url
+    def __init__(self, cfg, token):
         self.cfg = cfg
         self.njs_url = self.cfg['njsw-url']
         self.token = token
