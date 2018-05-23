@@ -31,11 +31,11 @@ class StateMocker(object):
         """
         Builds a list of mocked batch infos by using the list of inputs (in app_info)
         """
-        mocked_status = dict()
+        mocked_status = list()
         for i, param_set in enumerate(app_info['params'][0].get('params', [])):
             mock_job_id = "{}_{}".format(job_id, i)
             mock_status = self._mock_job_status(i, mock_job_id, app_status)
-            mocked_status[mock_job_id] = mock_status
+            mocked_status.append(mock_status)
         return mocked_status
 
     def _mock_job_status(self, order, job_id, parent_status):
