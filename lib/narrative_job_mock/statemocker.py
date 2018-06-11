@@ -16,10 +16,13 @@ class StateMocker(object):
         return status['job_states'].get(job_id, status['check_error'].get(job_id))
 
     def check_jobs(self, job_list, with_job_params):
+        print("running check_jobs")
         stats = self.njs.check_jobs({'job_ids': job_list, 'with_job_params': 1})
         for job_id in stats['job_params']:
             app_info = stats['job_params'][job_id]
+            print("got app_info - app_id={}, method={}".format(app_info.get('app_id'), app_info.get('method')))
             if app_info.get('app_id') == BATCH_APP_ID or app_info.get('method') == BATCH_APP_METHOD:
+                print("FOUND MATCH")
                 stats['job_states'][job_id]['sub_jobs'] = self._build_mock_batch(
                     job_id, app_info, stats['job_states'][job_id]
                 )
