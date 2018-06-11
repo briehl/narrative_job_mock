@@ -63,8 +63,8 @@ class narrative_job_mockTest(unittest.TestCase):
         state = self.getImpl().check_job(self.getContext(), self.job_ids[1])[0]
         self.assertIsNotNone(state)
         self.assertEqual(state.get('job_id'), self.job_ids[1])
-        self.assertIn('child_jobs', state)
-        self.assertTrue(2 == len(state['child_jobs'].keys()))
+        self.assertIn('sub_jobs', state)
+        self.assertTrue(2 == len(state['sub_jobs']))
 
     def test_check_jobs_ok(self):
         state = self.getImpl().check_jobs(self.getContext(), {'job_ids': self.job_ids, 'with_job_params': 1})[0]
@@ -73,7 +73,7 @@ class narrative_job_mockTest(unittest.TestCase):
         self.assertIn('job_params', state)
         self.assertIn(self.job_ids[0], state['job_states'])
         self.assertIn(self.job_ids[1], state['job_states'])
-        self.assertIn('child_jobs', state['job_states'][self.job_ids[1]])
+        self.assertIn('sub_jobs', state['job_states'][self.job_ids[1]])
 
     def test_check_jobs_no_params_ok(self):
         state = self.getImpl().check_jobs(self.getContext(), {'job_ids': self.job_ids, 'with_job_params': 0})[0]
@@ -82,4 +82,4 @@ class narrative_job_mockTest(unittest.TestCase):
         self.assertNotIn('job_params', state)
         self.assertIn(self.job_ids[0], state['job_states'])
         self.assertIn(self.job_ids[1], state['job_states'])
-        self.assertIn('child_jobs', state['job_states'][self.job_ids[1]])
+        self.assertIn('sub_jobs', state['job_states'][self.job_ids[1]])

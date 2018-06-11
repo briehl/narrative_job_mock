@@ -20,7 +20,7 @@ class StateMocker(object):
         for job_id in stats['job_params']:
             app_info = stats['job_params'][job_id]
             if app_info.get('app_id') == BATCH_APP_ID or app_info.get('method') == BATCH_APP_METHOD:
-                stats['job_states'][job_id]['child_jobs'] = self._build_mock_batch(
+                stats['job_states'][job_id]['sub_jobs'] = self._build_mock_batch(
                     job_id, app_info, stats['job_states'][job_id]
                 )
         if not with_job_params:

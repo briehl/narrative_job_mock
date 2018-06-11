@@ -136,6 +136,7 @@ JobState is a reference to a hash where the following keys are defined:
 	finish_time has a value which is an int
 	cancelled has a value which is a narrative_job_mock.boolean
 	canceled has a value which is a narrative_job_mock.boolean
+	sub_jobs has a value which is an UnspecifiedObject, which can hold any non-null object
 boolean is an int
 JsonRpcError is a reference to a hash where the following keys are defined:
 	name has a value which is a string
@@ -166,6 +167,7 @@ JobState is a reference to a hash where the following keys are defined:
 	finish_time has a value which is an int
 	cancelled has a value which is a narrative_job_mock.boolean
 	canceled has a value which is a narrative_job_mock.boolean
+	sub_jobs has a value which is an UnspecifiedObject, which can hold any non-null object
 boolean is an int
 JsonRpcError is a reference to a hash where the following keys are defined:
 	name has a value which is a string
@@ -268,6 +270,7 @@ JobState is a reference to a hash where the following keys are defined:
 	finish_time has a value which is an int
 	cancelled has a value which is a narrative_job_mock.boolean
 	canceled has a value which is a narrative_job_mock.boolean
+	sub_jobs has a value which is an UnspecifiedObject, which can hold any non-null object
 JsonRpcError is a reference to a hash where the following keys are defined:
 	name has a value which is a string
 	code has a value which is an int
@@ -324,6 +327,7 @@ JobState is a reference to a hash where the following keys are defined:
 	finish_time has a value which is an int
 	cancelled has a value which is a narrative_job_mock.boolean
 	canceled has a value which is a narrative_job_mock.boolean
+	sub_jobs has a value which is an UnspecifiedObject, which can hold any non-null object
 JsonRpcError is a reference to a hash where the following keys are defined:
 	name has a value which is a string
 	code has a value which is an int
@@ -406,115 +410,6 @@ wsref is a string
     }
 }
  
-
-
-=head2 filter_contigs
-
-  $output = $obj->filter_contigs($params)
-
-=over 4
-
-=item Parameter and return types
-
-=begin html
-
-<pre>
-$params is a narrative_job_mock.FilterContigsParams
-$output is a narrative_job_mock.FilterContigsResults
-FilterContigsParams is a reference to a hash where the following keys are defined:
-	assembly_input_ref has a value which is a narrative_job_mock.assembly_ref
-	workspace_name has a value which is a string
-	min_length has a value which is an int
-assembly_ref is a string
-FilterContigsResults is a reference to a hash where the following keys are defined:
-	report_name has a value which is a string
-	report_ref has a value which is a string
-	assembly_output has a value which is a narrative_job_mock.assembly_ref
-	n_initial_contigs has a value which is an int
-	n_contigs_removed has a value which is an int
-	n_contigs_remaining has a value which is an int
-
-</pre>
-
-=end html
-
-=begin text
-
-$params is a narrative_job_mock.FilterContigsParams
-$output is a narrative_job_mock.FilterContigsResults
-FilterContigsParams is a reference to a hash where the following keys are defined:
-	assembly_input_ref has a value which is a narrative_job_mock.assembly_ref
-	workspace_name has a value which is a string
-	min_length has a value which is an int
-assembly_ref is a string
-FilterContigsResults is a reference to a hash where the following keys are defined:
-	report_name has a value which is a string
-	report_ref has a value which is a string
-	assembly_output has a value which is a narrative_job_mock.assembly_ref
-	n_initial_contigs has a value which is an int
-	n_contigs_removed has a value which is an int
-	n_contigs_remaining has a value which is an int
-
-
-=end text
-
-=item Description
-
-The actual function is declared using 'funcdef' to specify the name
-and input/return arguments to the function.  For all typical KBase
-Apps that run in the Narrative, your function should have the
-'authentication required' modifier.
-
-=back
-
-=cut
-
- sub filter_contigs
-{
-    my($self, @args) = @_;
-
-# Authentication: required
-
-    if ((my $n = @args) != 1)
-    {
-	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
-							       "Invalid argument count for function filter_contigs (received $n, expecting 1)");
-    }
-    {
-	my($params) = @args;
-
-	my @_bad_arguments;
-        (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
-        if (@_bad_arguments) {
-	    my $msg = "Invalid arguments passed to filter_contigs:\n" . join("", map { "\t$_\n" } @_bad_arguments);
-	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
-								   method_name => 'filter_contigs');
-	}
-    }
-
-    my $url = $self->{url};
-    my $result = $self->{client}->call($url, $self->{headers}, {
-	    method => "narrative_job_mock.filter_contigs",
-	    params => \@args,
-    });
-    if ($result) {
-	if ($result->is_error) {
-	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
-					       code => $result->content->{error}->{code},
-					       method_name => 'filter_contigs',
-					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
-					      );
-	} else {
-	    return wantarray ? @{$result->result} : $result->result->[0];
-	}
-    } else {
-        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method filter_contigs",
-					    status_line => $self->{client}->status_line,
-					    method_name => 'filter_contigs',
-				       );
-    }
-}
- 
   
 sub status
 {
@@ -558,16 +453,16 @@ sub version {
             Bio::KBase::Exceptions::JSONRPC->throw(
                 error => $result->error_message,
                 code => $result->content->{code},
-                method_name => 'filter_contigs',
+                method_name => 'check_jobs',
             );
         } else {
             return wantarray ? @{$result->result} : $result->result->[0];
         }
     } else {
         Bio::KBase::Exceptions::HTTP->throw(
-            error => "Error invoking method filter_contigs",
+            error => "Error invoking method check_jobs",
             status_line => $self->{client}->status_line,
-            method_name => 'filter_contigs',
+            method_name => 'check_jobs',
         );
     }
 }
@@ -978,6 +873,7 @@ exec_start_time has a value which is an int
 finish_time has a value which is an int
 cancelled has a value which is a narrative_job_mock.boolean
 canceled has a value which is a narrative_job_mock.boolean
+sub_jobs has a value which is an UnspecifiedObject, which can hold any non-null object
 
 </pre>
 
@@ -999,6 +895,7 @@ exec_start_time has a value which is an int
 finish_time has a value which is an int
 cancelled has a value which is a narrative_job_mock.boolean
 canceled has a value which is a narrative_job_mock.boolean
+sub_jobs has a value which is an UnspecifiedObject, which can hold any non-null object
 
 
 =end text
@@ -1072,140 +969,6 @@ a reference to a hash where the following keys are defined:
 job_states has a value which is a reference to a hash where the key is a narrative_job_mock.job_id and the value is a narrative_job_mock.JobState
 job_params has a value which is a reference to a hash where the key is a narrative_job_mock.job_id and the value is a narrative_job_mock.RunJobParams
 check_error has a value which is a reference to a hash where the key is a narrative_job_mock.job_id and the value is a narrative_job_mock.JsonRpcError
-
-
-=end text
-
-=back
-
-
-
-=head2 assembly_ref
-
-=over 4
-
-
-
-=item Description
-
-A 'typedef' allows you to provide a more specific name for
-a type.  Built-in primitive types include 'string', 'int',
-'float'.  Here we define a type named assembly_ref to indicate
-a string that should be set to a KBase ID reference to an
-Assembly data object.
-
-
-=item Definition
-
-=begin html
-
-<pre>
-a string
-</pre>
-
-=end html
-
-=begin text
-
-a string
-
-=end text
-
-=back
-
-
-
-=head2 FilterContigsParams
-
-=over 4
-
-
-
-=item Description
-
-A 'typedef' can also be used to define compound or container
-objects, like lists, maps, and structures.  The standard KBase
-convention is to use structures, as shown here, to define the
-input and output of your function.  Here the input is a
-reference to the Assembly data object, a workspace to save
-output, and a length threshold for filtering.
-
-To define lists and maps, use a syntax similar to C++ templates
-to indicate the type contained in the list or map.  For example:
-
-    list <string> list_of_strings;
-    mapping <string, int> map_of_ints;
-
-
-=item Definition
-
-=begin html
-
-<pre>
-a reference to a hash where the following keys are defined:
-assembly_input_ref has a value which is a narrative_job_mock.assembly_ref
-workspace_name has a value which is a string
-min_length has a value which is an int
-
-</pre>
-
-=end html
-
-=begin text
-
-a reference to a hash where the following keys are defined:
-assembly_input_ref has a value which is a narrative_job_mock.assembly_ref
-workspace_name has a value which is a string
-min_length has a value which is an int
-
-
-=end text
-
-=back
-
-
-
-=head2 FilterContigsResults
-
-=over 4
-
-
-
-=item Description
-
-Here is the definition of the output of the function.  The output
-can be used by other SDK modules which call your code, or the output
-visualizations in the Narrative.  'report_name' and 'report_ref' are
-special output fields- if defined, the Narrative can automatically
-render your Report.
-
-
-=item Definition
-
-=begin html
-
-<pre>
-a reference to a hash where the following keys are defined:
-report_name has a value which is a string
-report_ref has a value which is a string
-assembly_output has a value which is a narrative_job_mock.assembly_ref
-n_initial_contigs has a value which is an int
-n_contigs_removed has a value which is an int
-n_contigs_remaining has a value which is an int
-
-</pre>
-
-=end html
-
-=begin text
-
-a reference to a hash where the following keys are defined:
-report_name has a value which is a string
-report_ref has a value which is a string
-assembly_output has a value which is a narrative_job_mock.assembly_ref
-n_initial_contigs has a value which is an int
-n_contigs_removed has a value which is an int
-n_contigs_remaining has a value which is an int
 
 
 =end text

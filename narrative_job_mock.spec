@@ -127,6 +127,7 @@ module narrative_job_mock {
         int finish_time;
         boolean cancelled;
         boolean canceled;
+        UnspecifiedObject sub_jobs;
     } JobState;
 
     /*

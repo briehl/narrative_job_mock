@@ -341,10 +341,6 @@ class Application(object):
                              name='narrative_job_mock.check_jobs',
                              types=[dict])
         self.method_authentication['narrative_job_mock.check_jobs'] = 'required'  # noqa
-        self.rpc_service.add(impl_narrative_job_mock.filter_contigs,
-                             name='narrative_job_mock.filter_contigs',
-                             types=[dict])
-        self.method_authentication['narrative_job_mock.filter_contigs'] = 'required'  # noqa
         self.rpc_service.add(impl_narrative_job_mock.status,
                              name='narrative_job_mock.status',
                              types=[dict])

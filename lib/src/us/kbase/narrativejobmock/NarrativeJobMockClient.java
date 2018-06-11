@@ -197,27 +197,6 @@ public class NarrativeJobMockClient {
         return res.get(0);
     }
 
-    /**
-     * <p>Original spec-file function name: filter_contigs</p>
-     * <pre>
-     * The actual function is declared using 'funcdef' to specify the name
-     * and input/return arguments to the function.  For all typical KBase
-     * Apps that run in the Narrative, your function should have the
-     * 'authentication required' modifier.
-     * </pre>
-     * @param   params   instance of type {@link us.kbase.narrativejobmock.FilterContigsParams FilterContigsParams}
-     * @return   parameter "output" of type {@link us.kbase.narrativejobmock.FilterContigsResults FilterContigsResults}
-     * @throws IOException if an IO exception occurs
-     * @throws JsonClientException if a JSON RPC exception occurs
-     */
-    public FilterContigsResults filterContigs(FilterContigsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
-        List<Object> args = new ArrayList<Object>();
-        args.add(params);
-        TypeReference<List<FilterContigsResults>> retType = new TypeReference<List<FilterContigsResults>>() {};
-        List<FilterContigsResults> res = caller.jsonrpcCall("narrative_job_mock.filter_contigs", args, retType, true, true, jsonRpcContext, this.serviceVersion);
-        return res.get(0);
-    }
-
     public Map<String, Object> status(RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         List<Object> args = new ArrayList<Object>();
         TypeReference<List<Map<String, Object>>> retType = new TypeReference<List<Map<String, Object>>>() {};

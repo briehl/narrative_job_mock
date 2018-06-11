@@ -49,7 +49,8 @@ import us.kbase.common.service.UObject;
     "exec_start_time",
     "finish_time",
     "cancelled",
-    "canceled"
+    "canceled",
+    "sub_jobs"
 })
 public class JobState {
 
@@ -86,6 +87,8 @@ public class JobState {
     private Long cancelled;
     @JsonProperty("canceled")
     private Long canceled;
+    @JsonProperty("sub_jobs")
+    private UObject subJobs;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("job_id")
@@ -297,6 +300,21 @@ public class JobState {
         return this;
     }
 
+    @JsonProperty("sub_jobs")
+    public UObject getSubJobs() {
+        return subJobs;
+    }
+
+    @JsonProperty("sub_jobs")
+    public void setSubJobs(UObject subJobs) {
+        this.subJobs = subJobs;
+    }
+
+    public JobState withSubJobs(UObject subJobs) {
+        this.subJobs = subJobs;
+        return this;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -309,7 +327,7 @@ public class JobState {
 
     @Override
     public String toString() {
-        return ((((((((((((((((((((((((((((("JobState"+" [jobId=")+ jobId)+", finished=")+ finished)+", ujsUrl=")+ ujsUrl)+", status=")+ status)+", result=")+ result)+", error=")+ error)+", jobState=")+ jobState)+", position=")+ position)+", creationTime=")+ creationTime)+", execStartTime=")+ execStartTime)+", finishTime=")+ finishTime)+", cancelled=")+ cancelled)+", canceled=")+ canceled)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((((((((((((((((((((((((((((("JobState"+" [jobId=")+ jobId)+", finished=")+ finished)+", ujsUrl=")+ ujsUrl)+", status=")+ status)+", result=")+ result)+", error=")+ error)+", jobState=")+ jobState)+", position=")+ position)+", creationTime=")+ creationTime)+", execStartTime=")+ execStartTime)+", finishTime=")+ finishTime)+", cancelled=")+ cancelled)+", canceled=")+ canceled)+", subJobs=")+ subJobs)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }
