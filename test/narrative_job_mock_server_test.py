@@ -83,3 +83,4 @@ class narrative_job_mockTest(unittest.TestCase):
         self.assertIn(self.job_ids[0], state['job_states'])
         self.assertIn(self.job_ids[1], state['job_states'])
         self.assertIn('sub_jobs', state['job_states'][self.job_ids[1]])
+        pprint(state)

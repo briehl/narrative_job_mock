@@ -1,4 +1,5 @@
 from NarrativeJobService.NarrativeJobServiceClient import NarrativeJobService
+from pprint import pprint
 
 BATCH_APP_ID = "kb_BatchApp/run_batch"
 BATCH_APP_METHOD = "kb_BatchApp.run_batch"
@@ -20,14 +21,14 @@ class StateMocker(object):
         stats = self.njs.check_jobs({'job_ids': job_list, 'with_job_params': 1})
         for job_id in stats['job_params']:
             app_info = stats['job_params'][job_id]
-            print("got app_info - app_id={}, method={}".format(app_info.get('app_id'), app_info.get('method')))
             if app_info.get('app_id') == BATCH_APP_ID or app_info.get('method') == BATCH_APP_METHOD:
-                print("FOUND MATCH")
                 stats['job_states'][job_id]['sub_jobs'] = self._build_mock_batch(
                     job_id, app_info, stats['job_states'][job_id]
                 )
         if not with_job_params:
             del stats['job_params']
+        print("done!")
+        pprint(stats)
         return stats
 
     def _build_mock_batch(self, job_id, app_info, app_status):
