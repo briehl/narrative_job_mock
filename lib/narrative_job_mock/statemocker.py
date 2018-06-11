@@ -17,7 +17,6 @@ class StateMocker(object):
         return status['job_states'].get(job_id, status['check_error'].get(job_id))
 
     def check_jobs(self, job_list, with_job_params):
-        print("running check_jobs")
         stats = self.njs.check_jobs({'job_ids': job_list, 'with_job_params': 1})
         for job_id in stats['job_params']:
             app_info = stats['job_params'][job_id]
@@ -27,8 +26,6 @@ class StateMocker(object):
                 )
         if not with_job_params:
             del stats['job_params']
-        print("done!")
-        pprint(stats)
         return stats
 
     def _build_mock_batch(self, job_id, app_info, app_status):
@@ -36,7 +33,7 @@ class StateMocker(object):
         Builds a list of mocked batch infos by using the list of inputs (in app_info)
         """
         mocked_status = list()
-        for i, param_set in enumerate(app_info['params'][0].get('params', [])):
+        for i, param_set in enumerate(app_info['params'][0].get('batch_params', [])):
             mock_job_id = "{}_{}".format(job_id, i)
             mock_status = self._mock_job_status(i, mock_job_id, app_status)
             mocked_status.append(mock_status)
